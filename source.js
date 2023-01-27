@@ -29,18 +29,21 @@ function compareGameLogic(){
    outputGameCount();
 }
 
+function displayResultFunc(){
+    if(userScoreCount>computerScoreCount){
+    score.innerText = `You won`;
+}else{
+    score.innerText = `You lost`;
+}
+}
+
 function outputGameCount(){
     score.innerText = `UserScore : ${userScoreCount} \n ComputerScore : ${computerScoreCount}`;
     if(userScoreCount === 5 || computerScoreCount === 5){
         buttons.forEach(button => {button.removeEventListener('click',addClass)});
-        if(userScoreCount > computerScoreCount){
-            score.innerText = 'You Won The Match';
-        }else{ 
-            score.innerText = 'Computer Won The Match';
-            }
+        displayResultFunc();
     }
 }
-
 
 function addClass(e){
     this.classList.add('one');
