@@ -69,4 +69,6 @@ div{
     font-weight:bold;
     min-width: 10px;
     color:aliceblue;
+    background-color:rgba(0,0,0,0.4);
+    margin:1rem;
 }
