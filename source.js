@@ -5,37 +5,49 @@ let computerScoreCount = 0;
 const buttons = document.querySelectorAll('.gameB');
 const score = document.querySelector('.score');
 const playMatch = document.querySelector('.play');
+const outPutPrompt = document.querySelector('.outPut');
 score.innerText = 'UserScore : 0 \n ComputerScore : 0';
-
-function compareChoice(e){
-    userChoice = this.innerText;
-    this.classList.add('one');
-    computerChoice = outFromcomputer();
-
-    if(userChoice === computerChoice){
-        userScoreCount += 1;
-    }else{
-        computerScoreCount += 1;
-    }
-    
-    outputText();
-}
-
-function outputText(){
-    score.innerText = `UserScore : ${userScoreCount} \n ComputerScore : ${computerScoreCount}`;
-    if(userScoreCount === 5 || computerScoreCount === 5){
-        buttons.forEach(button => {button.removeEventListener('click',compareChoice)});
-        if(userScoreCount > computerScoreCount){
-            score.innerText = 'User Won';
-        }else{ 
-            score.innerText = 'Computer Won';
-            }
-    }
-}
 
 function outFromcomputer(){
     let array = ['Rock','Paper','Scissor'];
     return array[Math.floor(Math.random()*3)];
+}
+
+function compareGameLogic(){
+   if(userChoice === computerChoice){
+        outPutPrompt.innerText = `Match tied since YourChoice and ComputerChoice Were ${userChoice}`;
+        return;
+   }else{
+        if(userChoice === 'Rock' && computerChoice === 'Scissor'||userChoice === 'Paper' && computerChoice === 'Rock'||userChoice === 'Scissor' && computerChoice === 'Paper'){
+            outPutPrompt.innerText = `You Won This Round since ${userChoice} beats ${computerChoice}`;
+            userScoreCount += 1;
+        }else{
+            outPutPrompt.innerText = `Computer WoN This Round since ${computerChoice} beats ${userChoice}`;
+            computerScoreCount += 1;
+        }
+   }
+   outputGameCount();
+}
+
+function outputGameCount(){
+    score.innerText = `UserScore : ${userScoreCount} \n ComputerScore : ${computerScoreCount}`;
+    if(userScoreCount === 5 || computerScoreCount === 5){
+        buttons.forEach(button => {button.removeEventListener('click',addClass)});
+        if(userScoreCount > computerScoreCount){
+            score.innerText = 'You Won The Match';
+        }else{ 
+            score.innerText = 'Computer Won The Match';
+            }
+    }
+}
+
+
+function addClass(e){
+    this.classList.add('one');
+    userChoice = this.innerText;
+    computerChoice = outFromcomputer();
+    compareGameLogic();    
+    outputGameCount();
 }
 
 function transitionFun(e){
@@ -43,14 +55,15 @@ function transitionFun(e){
    this.classList.remove('one');
 }
 
-function rematchFunc(e){
+function clickToPlay(e){
+    outPutPrompt.innerText = '';
     this.classList.add('one');
     userScoreCount = 0;
     computerScoreCount = 0;
     score.innerText = `UserScore : ${userScoreCount} \n ComputerScore : ${computerScoreCount}`;
-    buttons.forEach(button => {button.addEventListener('click',compareChoice)});
+    buttons.forEach(button => {button.addEventListener('click',addClass)});
     buttons.forEach(button => {button.addEventListener('transitionend',transitionFun)});
 }
 
-playMatch.addEventListener('click',rematchFunc);
+playMatch.addEventListener('click',clickToPlay);
 playMatch.addEventListener('transitionend',transitionFun);

@@ -63,3 +63,10 @@ div{
     background-color: rgb(240, 233, 225);
 
 }
+
+.outPut{
+    font-size: larger;
+    font-weight:bold;
+    min-width: 10px;
+    color:aliceblue;
+}
