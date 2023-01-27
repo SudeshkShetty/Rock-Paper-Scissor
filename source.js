@@ -1,26 +1,57 @@
+let userChoice = '';
+let computerChoice = '';
+let userScoreCount = 0;
+let computerScoreCount = 0;
+const buttons = document.querySelectorAll('.gameB');
+const score = document.querySelector('.score');
+const playMatch = document.querySelector('.play');
+score.innerText = 'UserScore : 0 \n ComputerScore : 0';
 
-function getUserChoice(){
-   const UserIn = prompt("Type your choice- Rock Paper Scissor ");
-    return UserIn;
-}
-
-function getComputerChoice(){
-    const gameChoice = ['Rock','Paper','Scissor'];
-    const randChoice = (Math.floor(Math.random()*3));
-  const CompOut = gameChoice[randChoice];
-  console.log(CompOut);
-    return CompOut;
-}
-
-for(let i = 0;i<5;i++){
-    const userChoice = getUserChoice();
-    const computerChoice = getComputerChoice();
-    if(userChoice.toUpperCase()===computerChoice.toUpperCase()){
-        alert("You won");
-        break;
+function compareChoice(e){
+    userChoice = this.innerText;
+    this.classList.add('one');
+    computerChoice = outFromcomputer();
+    console.log(computerChoice);
+    if(userChoice === computerChoice){
+        userScoreCount += 1;
     }else{
-        alert("You lost try again your choice was "+`${userChoice}`+" But Computers choice was "
-        +`${computerChoice}`+' and you have '+`${5-i-1}`+" tries left");
-        
+        computerScoreCount += 1;
+    }
+    console.log(userChoice);
+    outputText();
+}
+
+function outputText(){
+    score.innerText = `UserScore : ${userScoreCount} \n ComputerScore : ${computerScoreCount}`;
+    if(userScoreCount === 5 || computerScoreCount === 5){
+        buttons.forEach(button => {button.removeEventListener('click',compareChoice)});
+        if(userScoreCount > computerScoreCount){
+            score.innerText = 'User Won';
+        }else{ 
+            score.innerText = 'Computer Won';
+            }
     }
 }
+
+function outFromcomputer(){
+    let array = ['Rock','Paper','Scissor'];
+    return array[Math.floor(Math.random()*3)];
+}
+
+function transitionFun(e){
+    if(e.propertyName !== 'transform')return;
+   this.classList.remove('one');
+}
+
+function rematchFunc(e){
+    console.log(this);
+    this.classList.add('one');
+    userScoreCount = 0;
+    computerScoreCount = 0;
+    score.innerText = `UserScore : ${userScoreCount} \n ComputerScore : ${computerScoreCount}`;
+    buttons.forEach(button => {button.addEventListener('click',compareChoice)});
+    buttons.forEach(button => {button.addEventListener('transitionend',transitionFun)});
+}
+
+playMatch.addEventListener('click',rematchFunc);
+playMatch.addEventListener('transitionend',transitionFun);
