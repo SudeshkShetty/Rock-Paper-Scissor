@@ -11,13 +11,13 @@ function compareChoice(e){
     userChoice = this.innerText;
     this.classList.add('one');
     computerChoice = outFromcomputer();
-    console.log(computerChoice);
+
     if(userChoice === computerChoice){
         userScoreCount += 1;
     }else{
         computerScoreCount += 1;
     }
-    console.log(userChoice);
+    
     outputText();
 }
 
@@ -44,7 +44,6 @@ function transitionFun(e){
 }
 
 function rematchFunc(e){
-    console.log(this);
     this.classList.add('one');
     userScoreCount = 0;
     computerScoreCount = 0;
